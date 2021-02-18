@@ -8,6 +8,10 @@ import org.apache.ibatis.session.SqlSession;
 import com.savanna.model.vo.MemberVO;
 import com.savanna.mybatis.DBService;
 
+<<<<<<< Updated upstream:savanna/src/com/savanna/model/dao/MemberDAO.java
+=======
+public class MemberDAO {
+>>>>>>> Stashed changes:savanna/src/com/savanna/model/dao/DAO.java
 
 public class MemberDAO {
 
@@ -77,7 +81,11 @@ public class MemberDAO {
 	// 전체 회원수 조회
 	public static int getTotalCount() {
 		SqlSession ss = DBService.getFactory().openSession();
+<<<<<<< Updated upstream:savanna/src/com/savanna/model/dao/MemberDAO.java
 		int totalCount = ss.selectOne("member.totalCount");
+=======
+		int totalCount = ss.selectOne("member.reviewCount");
+>>>>>>> Stashed changes:savanna/src/com/savanna/model/dao/DAO.java
 		ss.close();
 		return totalCount;
 	}
@@ -85,7 +93,11 @@ public class MemberDAO {
 	// 페이지에 해당하는 회원목록 가져오기
 	public static List<MemberVO> getList(Map<String, Integer> map) {
 		SqlSession ss = DBService.getFactory().openSession();
+<<<<<<< Updated upstream:savanna/src/com/savanna/model/dao/MemberDAO.java
 		List<MemberVO> list = ss.selectList("member.list", map);
+=======
+		List<MemberVO> list = ss.selectList("member.memberList", map);
+>>>>>>> Stashed changes:savanna/src/com/savanna/model/dao/DAO.java
 		ss.close();
 		return list;
 	}

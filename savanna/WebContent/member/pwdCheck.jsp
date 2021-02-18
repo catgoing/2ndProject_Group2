@@ -19,7 +19,7 @@ $(function (){
 		var pwdchk = $('#pwdchk').val();
 		
 		$.ajax({
-			url : 'doPwdCheck?id=' + id + '&pwd=' + pwdchk,
+			url : '/savanna/controller?type=doPwdCheck?id=doPwdCheck?id=' + id + '&pwd=' + pwdchk,
 			type : 'get',
 			success : function(data){
 				console.log(data);

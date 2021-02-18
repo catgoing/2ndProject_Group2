@@ -26,12 +26,18 @@ public class AdminWithdrawalCommand implements Command{
 
 		
 //		System.out.println(vo);
+<<<<<<< Updated upstream
 		
 		MemberDAO.withdrawal1(vo); // 회원정보 탈퇴테이블에 복사
 		MemberDAO.withdrawal2(vo); // 회원정보 삭제
 		
 			
 		return "controller?type=memList";
+=======
+		MemberDAO.withdrawal1(vo); // 회원정보 탈퇴테이블에 복사
+		MemberDAO.withdrawal2(vo); // 회원정보 삭제
+		return "/savanna/controller?type=memList";
+>>>>>>> Stashed changes
 	}
 	
 	

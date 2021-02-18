@@ -5,6 +5,7 @@
   
 <mapper namespace="mystudy">
 
+<<<<<<< Updated upstream
 	<!-- 회원가입 -->
 	<select id="signUp" parameterType="MemberVO">
 		INSERT INTO MEMBERS
@@ -122,6 +123,142 @@
 		WHERE ID = #{id}
 	</select>	
 		
+=======
+	
+	<select id="bookCount" resultType="int">
+		SELECT COUNT(*) FROM BOOKS
+	</select>
+	
+	<select id="bookList" resultType="com.savanna.model.vo.BookVO">
+		SELECT book_no
+				, book_name
+				, writer
+				, publisher
+				, pub_date
+				, price
+				, book_desc
+				, NVL(stock, 0)
+				, category
+				FROM BOOKS ORDER BY BOOK_NO
+	</select>
+	
+	<select id="pagedBookList" resultType="com.savanna.model.vo.BookVO"
+			parameterType="Map">
+		SELECT *
+		  FROM (SELECT ROWNUM AS PAGING_INDEX, ORDERED_BOOKS.*
+		          FROM (SELECT book_no
+							, book_name
+							, writer
+							, publisher
+							, pub_date
+							, price
+							, book_desc
+							, stock
+							, category
+		                  FROM BOOKS
+		                 ORDER BY BOOK_NO DESC
+		               ) ORDERED_BOOKS
+		       )
+		 WHERE PAGING_INDEX BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<select id="pagedDatelessBookList" resultType="com.savanna.model.vo.BookVO"
+			parameterType="Map">
+		SELECT *
+		  FROM (SELECT ROWNUM AS PAGING_INDEX, ORDERED_BOOKS.*
+		          FROM (SELECT book_no
+							, book_name
+							, writer
+							, publisher
+							, price
+							, book_desc
+							, stock
+							, category
+		                  FROM BOOKS
+		                 ORDER BY BOOK_NO DESC
+		               ) ORDERED_BOOKS
+		       )
+		 WHERE PAGING_INDEX BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<update id="updatebook" parameterType="com.savanna.model.vo.BookVO">
+		UPDATE BOOKS
+		SET  book_name = #{book_name }
+			, writer = #{writer }
+			, publisher = #{publisher }
+			, pub_date = #{pub_date }
+			, price = #{price }
+			, book_desc = #{book_desc }
+			, stock = #{stock }
+			, category = #{category }
+		WHERE book_no = #{book_no }
+	</update>
+	
+	<insert id="insertbook" parameterType="com.savanna.model.vo.BookVO">
+		INSERT INTO BOOKS (book_no
+						, book_name
+						, writer
+						, publisher
+						, pub_date
+						, price
+						, book_desc
+						, stock
+						, category)
+		VALUES (book_no_seq.nextval
+			 , #{book_name }, #{writer }, #{publisher }, #{pub_date }, #{price }, #{book_desc }, #{stock }, #{category })
+	</insert>
+	
+	<delete id="deletebook" parameterType="int">
+		DELETE 
+		FROM BOOKS
+		WHERE book_no = #{book_no}
+	</delete>
+	<select id="bookdetail" parameterType="int" resultType="com.savanna.model.vo.BookVO">
+		SELECT book_no
+			, book_name
+			, writer
+			, publisher
+			, pub_date
+			, price
+			, book_desc
+			, stock
+			, category
+		FROM BOOKS
+		WHERE book_no = #{book_no}
+	</select>
+	
+    <!-- 책번호로 책 한권 검색 -->
+	<select id="onebook" parameterType="int" 
+			resultType="com.savanna.model.vo.BookVO">
+		SELECT * FROM BOOKS WHERE BOOK_NO = #{book_no }
+	</select>
+	
+	<!-- 동적 검색 -->
+	<select id="search" parameterType="map"
+			resultType="com.savanna.model.vo.BookVO">
+		SELECT *
+		  FROM BOOKS
+		<choose>
+			<when test="idx == 0">
+				WHERE BOOK_NO = #{keyword}
+			</when>
+			<when test="idx == 1">
+				WHERE BOOK_NAME= INITCAP(#{keyword}) 
+			</when>
+			<when test="idx == 2">
+				WHERE WRITER = UPPER(#{keyword})
+			</when>
+			<when test="idx == 3">
+				WHERE PUBLISHER = #{keyword}
+			</when>
+			<otherwise>
+				WHERE 1 = 2
+			</otherwise>
+		</choose>
+		ORDER BY BOOK_NO	
+	
+	</select>
+>>>>>>> Stashed changes
 
 </mapper>
 

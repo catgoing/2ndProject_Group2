@@ -9,24 +9,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< Updated upstream
+=======
+import com.savanna.model.command.Command;
+>>>>>>> Stashed changes
 import com.savanna.model.dao.MemberDAO;
 import com.savanna.model.vo.MemberVO;
 
-@WebServlet("/doPwdCheck")
-public class DoPwdCheckCommand extends HttpServlet{
-	private static final long serialVersionUID = 1L;
+public class DoPwdCheckCommand implements Command{
+	String id;
+	String pwd;
+	
+	public DoPwdCheckCommand(String id) {
+	
+		this.id = id.substring(14);
+	
+		
+	}
+
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+	public String execute(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = resp.getWriter();
 		
-		String id = req.getParameter("id");
-		String pwd = req.getParameter("pwd");
-//		System.out.println("do pwd id: " + id);
-//		System.out.println("do pwd pwd: " + pwd);
-		
+				
 		int result = 0;
 		
 		MemberVO vo1 = new MemberVO();
@@ -41,14 +49,7 @@ public class DoPwdCheckCommand extends HttpServlet{
 		req.setAttribute("result", result);	
 		out.print(result);
 		
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-		super.doPost(req, resp);
-		
-		
+		return "member/pwdCheck.jsp";
 	}
 
 }
