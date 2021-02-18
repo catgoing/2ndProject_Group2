@@ -84,10 +84,7 @@ public class FrontController extends HttpServlet {
 		}
 		else if ("inquiryPwd".equals(type)) {
 			command = new InquiryPwdCommand();
-<<<<<<< Updated upstream
-		}
-		else if (type.indexOf("memDetail") == 0) {
-=======
+
 		} else if (type.indexOf("memDetail") == 0) {
 >>>>>>> Stashed changes
 			command = new MemDetailCommand(type.substring(13));
