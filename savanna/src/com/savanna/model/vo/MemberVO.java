@@ -2,13 +2,13 @@ package com.savanna.model.vo;
 
 public class MemberVO {
 	
-	String id, pwd, name, addr, phone, email, mem_no, regdate;
+	String id, pwd, name, addr, phone, email, mem_no, regdate, status;
 	
 	public MemberVO() {
 	
 	}
 
-	public MemberVO(String id, String pwd, String name, String addr, String phone, String email, String mem_no, String regdate) {
+	public MemberVO(String id, String pwd, String name, String addr, String phone, String email, String mem_no, String regdate, String status) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
@@ -18,12 +18,9 @@ public class MemberVO {
 		this.email = email;
 		this.mem_no = mem_no;
 		this.regdate = regdate;
+		this.status = status;
 	}
-	
-//	public void SignIn(String id, String pwd) {
-//		this.id = id;
-//		this.pwd = pwd;
-//	}
+
 
 	public String getId() {
 		return id;
@@ -88,13 +85,23 @@ public class MemberVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate.substring(0, 10);
 	}
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", pwd=" + pwd + ", name=" + name + ", addr=" + addr + ", phone=" + phone
-				+ ", email=" + email + ", mem_no=" + mem_no + "]";
+				+ ", email=" + email + ", mem_no=" + mem_no + ", regdate=" + regdate + ", status=" + status + "]";
 	}
-	
+
+
 	
 	
 	

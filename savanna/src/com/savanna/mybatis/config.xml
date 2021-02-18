@@ -6,7 +6,7 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-
+	
   <typeAliases>
   	<typeAlias type="com.savanna.model.vo.MemberVO" alias="MemberVO"/>
   </typeAliases>
@@ -25,6 +25,7 @@
   
   <mappers>
     <mapper resource="com/savanna/mybatis/mapper.xml"/>
+    <mapper resource="com/savanna/mybatis/mapperMember.xml"/>
   </mappers>
 </configuration>
 

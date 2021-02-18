@@ -2,51 +2,23 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="mystudy">
 
-	<select id="booklist" resultType="com.savanna.model.vo.BookVO">
-		SELECT * FROM BOOKS ORDER BY BOOK_NO
-	</select>
-	
-	<!-- 동적 검색 -->
-	<select id="search" parameterType="map"
-			resultType="com.savanna.model.vo.BookVO">
-		SELECT *
-		  FROM BOOKS
-		<choose>
-			<when test="idx == 0">
-				WHERE BOOK_NO = #{keyword}
-			</when>
-			<when test="idx == 1">
-				WHERE BOOK_NAME= INITCAP(#{keyword}) 
-			</when>
-			<when test="idx == 2">
-				WHERE WRITER = UPPER(#{keyword})
-			</when>
-			<when test="idx == 3">
-				WHERE PUBLISHER = #{keyword}
-			</when>
-			<otherwise>
-				WHERE 1 = 2
-			</otherwise>
-		</choose>
-		ORDER BY BOOK_NO	
-	
-	</select>
-	
-		<!-- 회원가입 -->
-	<select id="sign_up" parameterType="MemberVO">
+	<!-- 회원가입 -->
+	<select id="signUp" parameterType="MemberVO">
 		INSERT INTO MEMBERS
 		(ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE)
 		VALUES (#{id}, #{pwd}, #{name}, #{addr}, #{phone}, #{email}, MEM_NO_SEQ.NEXTVAL, SYSDATE)
 	</select>
 	
 	<!-- 로그인-->
-	<select id="sign_in" parameterType="MemberVO" resultType="MemberVO">
+	<select id="signIn" parameterType="MemberVO" resultType="MemberVO">
 		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
 		FROM MEMBERS
 		WHERE ID = #{id}
 		AND PWD = #{pwd}
+		AND STATUS = ANY(0, 3)
 	</select>
 	
 	<!-- 아이디 중복 체크 -->
@@ -64,6 +36,93 @@
 		AND PWD = #{pwd}
 	</select>
 	
+	<!-- 정보수정-->
+	<select id="update" parameterType="MemberVO" resultType="MemberVO">
+		UPDATE MEMBERS 
+		SET NAME = #{name},
+			PWD = #{pwd},
+			ADDR = #{addr},
+			PHONE = #{phone},
+			EMAIL = #{email}
+		WHERE ID = #{id}	
+	</select>
+	
+	<!-- 회원탈퇴 테이블로 데이터 이동-->
+	<select id="withdrawal1" parameterType="MemberVO" resultType="int">
+		INSERT INTO WITHDRAWAL(
+	    		ID, NAME, ADDR, PHONE, EMAIL, MEM_NO, WITDATE)
+		SELECT ID, NAME, ADDR, PHONE, EMAIL, MEM_NO, SYSDATE
+		FROM MEMBERS
+		WHERE ID = #{id}
+	</select>
+	<!-- 회원정보 삭제 -->
+	<select id="withdrawal2" parameterType="MemberVO" resultType="int">
+	 	UPDATE MEMBERS 
+		SET NAME = NULL,
+			PWD = NULL,
+			ADDR = NULL,
+			PHONE = NULL,
+			EMAIL = NULL,
+			REGDATE = NULL,
+			STATUS = 1
+		WHERE ID = #{id}	
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="inquiryId" parameterType="MemberVO" resultType="string">
+		SELECT ID 
+		FROM MEMBERS
+		WHERE NAME = #{name}
+		AND PHONE = #{phone}
+		AND STATUS = 0
+	</select>
+	
+	<!-- 패스워드 찾기 -->
+	<select id="inquiryPwd" parameterType="MemberVO" resultType="string">
+		SELECT PWD 
+		FROM MEMBERS
+		WHERE ID = #{id}
+		AND NAME = #{name}
+		AND STATUS = 0
+	</select>
+	
+	<!-- 모든 회원 출력 -->
+	<select id="memList" resultType="MemberVO">
+	 	SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, STATUS
+		FROM MEMBERS
+		WHERE STATUS = 0
+		ORDER BY ID
+	</select>
+	
+	<!-- 전체 회원수 조회 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*) AS CNT FROM MEMBERS WHERE STATUS = 0
+	</select>
+	
+	<!-- 페이지에 표시할 데이터 조회 
+		parameterType="Map" : begin, end 값 전달 용도
+		key-value 형태의 Map 사용 바인드변수명 key가 됨 -->
+	<select id="list" resultType="MemberVO"
+			parameterType="Map">
+		SELECT *
+		  FROM (SELECT ROWNUM AS R_NUM, M.*
+		          FROM (SELECT *
+		                  FROM MEMBERS
+		                  WHERE STATUS = 0
+		                 ORDER BY ID
+		               ) M 
+		       )
+		 WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 회원 상세정보-->
+	<select id="memDetail" parameterType="string" resultType="MemberVO">
+		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
+		FROM MEMBERS
+		WHERE ID = #{id}
+	</select>	
+		
+
 </mapper>
 
 

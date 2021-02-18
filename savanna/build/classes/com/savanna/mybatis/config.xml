@@ -18,13 +18,14 @@
         <property name="driver" value="oracle.jdbc.OracleDriver"/>
         <property name="url" value="jdbc:oracle:thin:@114.204.160.132:3693:xe"/>
         <property name="username" value="mystudy"/>
-        <property name="password" value="mystudypwd"/>
+        <property name="password" value="mystudypw"/>
       </dataSource>
     </environment>
   </environments>
   
   <mappers>
     <mapper resource="com/savanna/mybatis/mapper.xml"/>
+    <mapper resource="com/savanna/mybatis/mapperMember.xml"/>
   </mappers>
 </configuration>
 
