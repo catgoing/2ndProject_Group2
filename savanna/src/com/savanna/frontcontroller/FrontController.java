@@ -98,23 +98,13 @@ public class FrontController extends HttpServlet {
 		}
 		else if ("adminWithdrawal".equals(type)) {
 			command = new AdminWithdrawalCommand();
-<<<<<<< Updated upstream
+
 		}
 		
 		else if (type.indexOf("idCheck") == 0) {
 			command = new IdCheckCommand(type.substring(11));
 		}
 		
-		String path = command.execute(request, response); // path 위치에 response 데이터만 넘기는 것
-		
-		if(type.indexOf("idCheck") != 0) {
-			request.getRequestDispatcher(path).forward(request, response); // 데이터 포워딩하는 부분
-		}
-		
-=======
-		} else if (type.indexOf("idCheck") == 0) {
-			command = new IdCheckCommand(type.substring(11));
-		} 
 //		else if (type.indexOf("doPwdCheck") == 0) {
 //			command = new DoPwdCheckCommand(type.substring(14));
 //		}
