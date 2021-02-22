@@ -32,7 +32,6 @@ public class AdminUpdateCommand implements Command{
 		vo.setEmail(request.getParameter("email"));
 		vo.setRegdate(request.getParameter("regdate"));
 		vo.setMem_no(request.getParameter("mem_no"));
-		vo.setSel_accept(request.getParameter("sel_accept"));
 		
 		
 		MemberDAO.update(vo);

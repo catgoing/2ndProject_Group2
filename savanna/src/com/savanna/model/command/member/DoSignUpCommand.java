@@ -26,7 +26,6 @@ public class DoSignUpCommand implements Command{
 		vo.setAddr(request.getParameter("addr"));
 		vo.setPhone(request.getParameter("phone"));
 		vo.setEmail(request.getParameter("email"));
-		vo.setSel_accept(request.getParameter("sel_accept"));
 		
 		
 		MemberDAO.signUp(vo);

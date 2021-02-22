@@ -2,13 +2,13 @@ package com.savanna.model.vo;
 
 public class MemberVO {
 	
-	private String id, pwd, name, addr, phone, email, mem_no, regdate, status, sel_accept;
+	String id, pwd, name, addr, phone, email, mem_no, regdate, status;
 	
 	public MemberVO() {
 	
 	}
 
-	public MemberVO(String id, String pwd, String name, String addr, String phone, String email, String mem_no, String regdate, String status, String sel_accept) {
+	public MemberVO(String id, String pwd, String name, String addr, String phone, String email, String mem_no, String regdate, String status) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
@@ -19,7 +19,6 @@ public class MemberVO {
 		this.mem_no = mem_no;
 		this.regdate = regdate;
 		this.status = status;
-		this.sel_accept = sel_accept;
 	}
 
 
@@ -84,7 +83,6 @@ public class MemberVO {
 	}
 
 	public void setRegdate(String regdate) {
-		System.out.println(regdate);
 		this.regdate = regdate.substring(0, 10);
 	}
 	
@@ -95,14 +93,6 @@ public class MemberVO {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public String getSel_accept() {
-		return sel_accept;
-	}
-
-	public void setSel_accept(String sel_accept) {
-		this.sel_accept = sel_accept;
 	}
 
 	@Override

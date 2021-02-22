@@ -16,4 +16,5 @@ public class SignInCommand implements Command{
 		
 		return "member/signIn.jsp";
 	}
+
 }

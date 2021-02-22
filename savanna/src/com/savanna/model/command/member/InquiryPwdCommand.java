@@ -28,7 +28,7 @@ public class InquiryPwdCommand implements Command{
 		
 		String pwd = MemberDAO.inquiryPwd(vo1);
 		
-		if(id != null) {
+		if(pwd != null) {
 			request.setAttribute("pwd", pwd);
 			
 			return "member/inquiryPwdResult.jsp";

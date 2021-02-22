@@ -32,9 +32,8 @@ public class UpdateCommand implements Command{
 		vo.setEmail(request.getParameter("email"));
 		vo.setRegdate(request.getParameter("regdate"));
 		vo.setMem_no(request.getParameter("mem_no"));
-		vo.setSel_accept(request.getParameter("sel_accept"));
 		
-		System.out.println(vo);
+//		System.out.println(vo);
 		
 		HttpSession httpSession = request.getSession(true);
 		//수정된 정보 세션에 저장

@@ -6,12 +6,9 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-
+	
   <typeAliases>
   	<typeAlias type="com.savanna.model.vo.MemberVO" alias="MemberVO"/>
-  	<typeAlias type="com.savanna.model.vo.ReviewVO" alias="ReviewVO"/>
-  	<typeAlias type="com.savanna.model.vo.CommVO" alias="CommVO"/>
-  	<typeAlias type="com.savanna.model.vo.BuyVO" alias="BuyVO"/>
   </typeAliases>
 
   <environments default="development">
@@ -29,8 +26,6 @@
   <mappers>
     <mapper resource="com/savanna/mybatis/mapper.xml"/>
     <mapper resource="com/savanna/mybatis/mapperMember.xml"/>
-    <mapper resource="com/savanna/mybatis/mapperBoard.xml"/>
-    <mapper resource="com/savanna/mybatis/mapperCart.xml"/>
   </mappers>
 </configuration>
 

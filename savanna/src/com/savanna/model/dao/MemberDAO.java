@@ -1,18 +1,17 @@
 package com.savanna.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.savanna.model.vo.BuyVO;
 import com.savanna.model.vo.MemberVO;
 import com.savanna.mybatis.DBService;
 
-public class MemberDAO implements SuperDAO{
 
-	//회원가입
+public class MemberDAO {
+
+	// 회원가입
 	public static int signUp(MemberVO vo) {
 		SqlSession ss = DBService.getFactory().openSession(true);
 		int result = ss.insert("member.signUp", vo);
@@ -20,6 +19,7 @@ public class MemberDAO implements SuperDAO{
 		return result;
 	}
 	
+	// 로그인
 	public static MemberVO signIn(MemberVO vo1) {
 		SqlSession ss = DBService.getFactory().openSession();
 		MemberVO vo = ss.selectOne("member.signIn", vo1);
@@ -27,7 +27,7 @@ public class MemberDAO implements SuperDAO{
 		return vo;
 	}
 	
-	//아이디 중복 조회 
+	// 아이디 중복 조회 
 	public static int idCheck(MemberVO vo1) {
 		SqlSession ss = DBService.getFactory().openSession();
 		int result = ss.selectOne("member.id_check", vo1);
@@ -42,7 +42,6 @@ public class MemberDAO implements SuperDAO{
 		ss.close();
 		return result;
 	}
-	
 	// 정보수정
 	public static MemberVO update(MemberVO vo1) {
 		SqlSession ss = DBService.getFactory().openSession();
@@ -71,11 +70,12 @@ public class MemberDAO implements SuperDAO{
 		SqlSession ss = DBService.getFactory().openSession();
 		List<MemberVO> list = ss.selectList("member.memList");
 		ss.close();
+		System.out.println(list);
 		return list;
 	}
 	
 	// 전체 회원수 조회
-	public static int getMemberCount() {
+	public static int getTotalCount() {
 		SqlSession ss = DBService.getFactory().openSession();
 		int totalCount = ss.selectOne("member.totalCount");
 		ss.close();
@@ -113,71 +113,8 @@ public class MemberDAO implements SuperDAO{
 		ss.close();
 		return vo;
 	}
-	
-	//동적검색
-	public static List<MemberVO> getSearch(String idx, String keyword) {
-		Map<String, String> map = new HashMap<>();
-		map.put("idx", idx);
-		map.put("keyword", keyword);
+
 		
-		SqlSession ss = DBService.getFactory().openSession();
-		List<MemberVO> list = ss.selectList("member.search", map);
-		ss.close();
-		return list;
-	}
-	
-	// 동적검색 결과 수 조회
-	public static int getSearchCount(String idx, String keyword) {
-		Map<String, String> map = new HashMap<>();
-		map.put("idx", idx);
-		map.put("keyword", keyword);
-		
-		SqlSession ss = DBService.getFactory().openSession();
-		int totalCount = ss.selectOne("member.searchCount", map);
-		ss.close();
-		return totalCount;
-	}
-	
-	// 검색결과에 해당하는 회원목록 가져오기
-	public static List<MemberVO> getsearchList(Map<String, String> map) {
-		SqlSession ss = DBService.getFactory().openSession();
-		List<MemberVO> list = ss.selectList("member.searchList", map);
-		ss.close();
-		return list;
-	}
-
-	
-	// 구매목록
-	public static List<BuyVO> buyList(Map<String, Integer> map) {
-		SqlSession ss = DBService.getFactory().openSession();
-		List<BuyVO> list = ss.selectList("member.buyList", map);
-		ss.close();
-		return list;
-}
-
-
-	@Override
-	public int getTotalCount() {
-		return this.getMemberCount();
-	}
-
-	@Override
-	public List getPagedList(Map map) {
-		return this.getList(map);
-
-	}
-
-	@Override
-	public int getTotalCount2(String str) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List getPagedList2(Map map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 
 

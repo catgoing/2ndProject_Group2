@@ -2,198 +2,126 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="mystudy">
 
-	
-	<select id="bookCount" resultType="int">
-		SELECT COUNT(*) FROM BOOKS
+	<!-- 회원가입 -->
+	<select id="signUp" parameterType="MemberVO">
+		INSERT INTO MEMBERS
+		(ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE)
+		VALUES (#{id}, #{pwd}, #{name}, #{addr}, #{phone}, #{email}, MEM_NO_SEQ.NEXTVAL, SYSDATE)
 	</select>
 	
-	<select id="bookList" resultType="com.savanna.model.vo.BookVO">
-		SELECT book_no
-				, book_name
-				, writer
-				, publisher
-				, pub_date
-				, price
-				, book_desc
-				, stock
-				, category
-				FROM BOOKS ORDER BY BOOK_NO
+	<!-- 로그인-->
+	<select id="signIn" parameterType="MemberVO" resultType="MemberVO">
+		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
+		FROM MEMBERS
+		WHERE ID = #{id}
+		AND PWD = #{pwd}
+		AND STATUS = ANY(0, 3)
 	</select>
 	
-	<select id="pagedBookList" resultType="com.savanna.model.vo.BookVO"
-			parameterType="Map">
-		SELECT *
-		  FROM (SELECT ROWNUM AS PAGING_INDEX, ORDERED_BOOKS.*
-		          FROM (SELECT book_no
-							, book_name
-							, writer
-							, publisher
-							, pub_date
-							, price
-							, book_desc
-							, stock
-							, category
-		                  FROM BOOKS
-		                 ORDER BY BOOK_NO DESC
-		               ) ORDERED_BOOKS
-		       )
-		 WHERE PAGING_INDEX BETWEEN #{begin} AND #{end}
-	</select>
-	
-	<select id="pagedDatelessBookList" resultType="com.savanna.model.vo.BookVO"
-			parameterType="Map">
-		SELECT *
-		  FROM (SELECT ROWNUM AS PAGING_INDEX, ORDERED_BOOKS.*
-		          FROM (SELECT book_no
-							, book_name
-							, writer
-							, publisher
-							, price
-							, book_desc
-							, stock
-							, category
-		                  FROM BOOKS
-		                 ORDER BY BOOK_NO DESC
-		               ) ORDERED_BOOKS
-		       )
-		 WHERE PAGING_INDEX BETWEEN #{begin} AND #{end}
-	</select>
-	
-	<update id="updatebook" parameterType="com.savanna.model.vo.BookVO">
-		UPDATE BOOKS
-		SET  book_name = #{book_name }
-			, writer = #{writer }
-			, publisher = #{publisher }
-			, pub_date = #{pub_date }
-			, price = #{price }
-			, book_desc = #{book_desc }
-			, stock = #{stock }
-			, category = #{category }
-		WHERE book_no = #{book_no }
-	</update>
-	
-	<insert id="insertbook" parameterType="com.savanna.model.vo.BookVO">
-		INSERT INTO BOOKS (book_no
-						, book_name
-						, writer
-						, publisher
-						, pub_date
-						, price
-						, book_desc
-						, stock
-						, category)
-		VALUES (book_no_seq.nextval
-			 , #{book_name }, #{writer }, #{publisher }, #{pub_date }, #{price }, #{book_desc }, #{stock }, #{category })
-	</insert>
-	
-	<delete id="deletebook" parameterType="int">
-		DELETE 
-		FROM BOOKS
-		WHERE book_no = #{book_no}
-	</delete>
-	<select id="bookdetail" parameterType="int" resultType="com.savanna.model.vo.BookVO">
-		SELECT book_no
-			, book_name
-			, writer
-			, publisher
-			, pub_date
-			, price
-			, book_desc
-			, stock
-			, category
-		FROM BOOKS
-		WHERE book_no = #{book_no}
-	</select>
-	
-    <!-- 책번호로 책 한권 검색 -->
-	<select id="onebook" parameterType="int" 
-			resultType="com.savanna.model.vo.BookVO">
-		SELECT BOOK_NO
-			, BOOK_NAME
-			, WRITER
-			, PUBLISHER
-			, PUB_DATE
-			, PRICE
-			, BOOK_DESC
-			, NVL(STOCK, 0) as STOCK
-			, CATEGORY
-		FROM BOOKS WHERE BOOK_NO = #{book_no }
-	</select>
-	
-	<!-- 동적 검색 -->
-	<select id="search" parameterType="map"
-			resultType="com.savanna.model.vo.BookVO">
-		SELECT *
-		  FROM BOOKS
-		<choose>
-			<when test="idx == 0">
-				WHERE BOOK_NO = #{keyword}
-			</when>
-			<when test="idx == 1">
-				WHERE BOOK_NAME= INITCAP(#{keyword}) 
-			</when>
-			<when test="idx == 2">
-				WHERE WRITER = UPPER(#{keyword})
-			</when>
-			<when test="idx == 3">
-				WHERE PUBLISHER = #{keyword}
-			</when>
-			<otherwise>
-				WHERE 1 = 2
-			</otherwise>
-		</choose>
-		ORDER BY BOOK_NO	
-	
-	</select>
-	
-	<!-- id당 찜한 수 -->
-	<select id="getwishcount" parameterType="string"  resultType="int">
-		SELECT COUNT(*) AS CNT FROM WISHLIST WHERE ID = #{id }
-	</select>
-    
-    <!-- 찜목록 조회 -->
-    <select id="selectwishlist" parameterType="map" resultType="com.savanna.model.vo.WishVO">
-		SELECT *
-		FROM (SELECT ROWNUM AS RN, J.*
-        		FROM(SELECT B.BOOK_NAME, B.WRITER, B.PUB_DATE, B.PRICE, B.PUBLISHER,
-             				W.WISH_NO, W.BOOK_NO, W.ID, W.MEMO, W.WISH_DATE
-         			 FROM BOOKS B INNER JOIN WISHLIST W
-			         ON B.BOOK_NO = W.BOOK_NO
-			         ORDER BY W.WISH_DATE DESC 
-					 ) J 
-				WHERE Id = #{id }	 
-	          )
- 		WHERE RN BETWEEN #{begin } AND #{end }
-    </select>
-    
-    <!-- 찜목록 입력 -->
-    <insert id="insertwish" parameterType="map">
-    	INSERT INTO WISHLIST (WISH_NO, BOOK_NO, ID, WISH_DATE)
-		VALUES (WISH_NO_SEQ.NEXTVAL, #{book_no} , #{id }, SYSDATE )
-    </insert>
-    
-    <!-- 찜한 상품에 memo 추가 -->
-	<update id="updatewishmemo" parameterType="map" >
-		UPDATE WISHLIST
-		SET MEMO = #{memo }
-		WHERE ID = #{id} and BOOK_NO = #{book_no }
-	</update>
-    
-    <!-- 찜목록 삭제 -->
-    <delete id="deletewish" parameterType="map">
-    	DELETE FROM WISHLIST 
-    	WHERE ID = #{id} AND BOOK_NO = #{book_no}
-    </delete>
-
-	<!-- 찜목록 중복조회 -->
-	<select id="jungbok" parameterType="map" resultType="int">
+	<!-- 아이디 중복 체크 -->
+	<select id="id_check" parameterType="MemberVO" resultType="int">
 		SELECT COUNT(*)
-		 FROM WISHLIST 
-		 WHERE ID = #{id} 
-		 AND BOOK_NO = #{book_no }
+		FROM MEMBERS
+		WHERE ID = #{id}
 	</select>
+	
+	<!-- 정보 수정 시 패스워드 체크 -->
+	<select id="pwd_check" parameterType="MemberVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM MEMBERS
+		WHERE ID = #{id}
+		AND PWD = #{pwd}
+	</select>
+	
+	<!-- 정보수정-->
+	<select id="update" parameterType="MemberVO" resultType="MemberVO">
+		UPDATE MEMBERS 
+		SET NAME = #{name},
+			PWD = #{pwd},
+			ADDR = #{addr},
+			PHONE = #{phone},
+			EMAIL = #{email}
+		WHERE ID = #{id}	
+	</select>
+	
+	<!-- 회원탈퇴 테이블로 데이터 이동-->
+	<select id="withdrawal1" parameterType="MemberVO" resultType="int">
+		INSERT INTO WITHDRAWAL(
+	    		ID, NAME, ADDR, PHONE, EMAIL, MEM_NO, WITDATE)
+		SELECT ID, NAME, ADDR, PHONE, EMAIL, MEM_NO, SYSDATE
+		FROM MEMBERS
+		WHERE ID = #{id}
+	</select>
+	<!-- 회원정보 삭제 -->
+	<select id="withdrawal2" parameterType="MemberVO" resultType="int">
+	 	UPDATE MEMBERS 
+		SET NAME = NULL,
+			PWD = NULL,
+			ADDR = NULL,
+			PHONE = NULL,
+			EMAIL = NULL,
+			REGDATE = NULL,
+			STATUS = 1
+		WHERE ID = #{id}	
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="inquiryId" parameterType="MemberVO" resultType="string">
+		SELECT ID 
+		FROM MEMBERS
+		WHERE NAME = #{name}
+		AND PHONE = #{phone}
+		AND STATUS = 0
+	</select>
+	
+	<!-- 패스워드 찾기 -->
+	<select id="inquiryPwd" parameterType="MemberVO" resultType="string">
+		SELECT PWD 
+		FROM MEMBERS
+		WHERE ID = #{id}
+		AND NAME = #{name}
+		AND STATUS = 0
+	</select>
+	
+	<!-- 모든 회원 출력 -->
+	<select id="memList" resultType="MemberVO">
+	 	SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, STATUS
+		FROM MEMBERS
+		WHERE STATUS = 0
+		ORDER BY ID
+	</select>
+	
+	<!-- 전체 회원수 조회 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*) AS CNT FROM MEMBERS WHERE STATUS = 0
+	</select>
+	
+	<!-- 페이지에 표시할 데이터 조회 
+		parameterType="Map" : begin, end 값 전달 용도
+		key-value 형태의 Map 사용 바인드변수명 key가 됨 -->
+	<select id="list" resultType="MemberVO"
+			parameterType="Map">
+		SELECT *
+		  FROM (SELECT ROWNUM AS R_NUM, M.*
+		          FROM (SELECT *
+		                  FROM MEMBERS
+		                  WHERE STATUS = 0
+		                 ORDER BY ID
+		               ) M 
+		       )
+		 WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 회원 상세정보-->
+	<select id="memDetail" parameterType="string" resultType="MemberVO">
+		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
+		FROM MEMBERS
+		WHERE ID = #{id}
+	</select>	
+		
 
 </mapper>
 

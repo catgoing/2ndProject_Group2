@@ -8,13 +8,13 @@
 	<!-- 회원가입 -->
 	<select id="signUp" parameterType="MemberVO">
 		INSERT INTO MEMBERS
-		(ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, STATUS, SEL_ACCEPT)
-		VALUES (#{id}, #{pwd}, #{name}, #{addr}, #{phone}, #{email}, MEM_NO_SEQ.NEXTVAL, SYSDATE, 0, #{sel_accept})
+		(ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE)
+		VALUES (#{id}, #{pwd}, #{name}, #{addr}, #{phone}, #{email}, MEM_NO_SEQ.NEXTVAL, SYSDATE)
 	</select>
 	
 	<!-- 로그인-->
 	<select id="signIn" parameterType="MemberVO" resultType="MemberVO">
-		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, SEL_ACCEPT
+		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
 		FROM MEMBERS
 		WHERE ID = #{id}
 		AND PWD = #{pwd}
@@ -43,8 +43,7 @@
 			PWD = #{pwd},
 			ADDR = #{addr},
 			PHONE = #{phone},
-			EMAIL = #{email},
-			SEL_ACCEPT = #{sel_accept}
+			EMAIL = #{email}
 		WHERE ID = #{id}	
 	</select>
 	
@@ -65,8 +64,7 @@
 			PHONE = NULL,
 			EMAIL = NULL,
 			REGDATE = NULL,
-			STATUS = 1,
-			SEL_ACCEPT = NULL
+			STATUS = 1
 		WHERE ID = #{id}	
 	</select>
 	
@@ -90,7 +88,7 @@
 	
 	<!-- 모든 회원 출력 -->
 	<select id="memList" resultType="MemberVO">
-	 	SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, STATUS, SEL_ACCEPT
+	 	SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, STATUS
 		FROM MEMBERS
 		WHERE STATUS = 0
 		ORDER BY ID
@@ -119,73 +117,11 @@
 	
 	<!-- 회원 상세정보-->
 	<select id="memDetail" parameterType="string" resultType="MemberVO">
-		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE, SEL_ACCEPT, STATUS
+		SELECT ID, PWD, NAME, ADDR, PHONE, EMAIL, MEM_NO, REGDATE 
 		FROM MEMBERS
 		WHERE ID = #{id}
 	</select>	
-	
-	
-		<!-- 검색 결과 수 조회 -->
-	<select id="searchCount" parameterType="Map" resultType="int">
-		SELECT COUNT(*) AS CNT 
-		FROM MEMBERS 
-		<choose>
-			<when test="idx == 0">
-				WHERE ID = #{keyword}
-			</when>
-			<when test="idx == 1">
-				WHERE NAME = #{keyword}
-			</when>
-			<when test="idx == 2">
-				WHERE PHONE = #{keyword}
-			</when>
-			<when test="idx == 3">
-				WHERE EMAIL = #{keyword}
-			</when>
-			<otherwise>
-				WHERE 1 = 2
-			</otherwise>
-		</choose>
-	</select>
-	
-	<!-- 페이지에 표시할 데이터 조회 
-		parameterType="Map" : begin, end 값 전달 용도
-		key-value 형태의 Map 사용 바인드변수명 key가 됨 -->
-	<select id="searchList" resultType="MemberVO"
-			parameterType="Map">
-		SELECT *
-		  FROM (SELECT ROWNUM AS R_NUM, M.*
-		          FROM (SELECT *
-		                  FROM MEMBERS
-                  		<choose>
-							<when test="idx == 0">
-								WHERE ID = #{keyword}
-							</when>
-							<when test="idx == 1">
-								WHERE NAME = #{keyword}
-							</when>
-							<when test="idx == 2">
-								WHERE PHONE = #{keyword}
-							</when>
-							<when test="idx == 3">
-								WHERE EMAIL = #{keyword}
-							</when>
-							<otherwise>
-								WHERE 1 = 2
-							</otherwise>
-						</choose>
-		                 ORDER BY ID
-		               ) M 
-		       )
-		 WHERE R_NUM BETWEEN #{begin} AND #{end}
-	</select>
-	
-	<!-- 구매내역 리스트-->
-	<select id="buyList" parameterType="string" resultType="BuyVO">
-		SELECT BOOK_NAME, QUAN, PRICE, PUR_DATE
-		FROM BUY_LIST
-		WHERE ID = #{id}
-	</select>			
+		
 
 </mapper>
 
