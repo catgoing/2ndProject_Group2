@@ -52,11 +52,7 @@ WithdrawalCommand();
 			if(type.length()==7) {
 				command = new MemListCommand("1");
 			} else
-			command = new MemListCommand(type.substring(14));
-		}
-		else if ("inquiryId".equals(type)) {
-			command = new InquiryIdCommand();
-		}
+			comman
 		else if ("inquiryPwd".equals(type)) {
 			command = new InquiryPwdCommand();
 		}
