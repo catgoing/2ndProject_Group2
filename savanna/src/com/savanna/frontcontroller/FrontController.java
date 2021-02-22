@@ -46,30 +46,7 @@ public class FrontController extends HttpServlet {
 		Command command = null;
 		if ("signUp".equals(type)) {
 			command = new SignUpCommand();
-		} 
-		else if ("doSignUp".equals(type)) {
-			command = new DoSignUpCommand();
-		} 
-		else if ("signIn".equals(type)) {
-			command = new SignInCommand();
-		}
-		else if ("doSignIn".equals(type)) {
-			command = new DoSignInCommand();
-		} 
-		else if ("myInfo".equals(type)) {
-			command = new MyInfoCommand();
-		}
-		else if ("pwdCheck".equals(type)) {
-			command = new PwdCheckCommand();
-		}
-		else if ("logout".equals(type)) {
-			command = new LogoutCommand();
-		}
-		else if ("update".equals(type)) {
-			command = new UpdateCommand();
-		}
-		else if ("withdrawal".equals(type)) {
-			command = new WithdrawalCommand();
+WithdrawalCommand();
 		}
 		else if (type.indexOf("memList") == 0) {
 			if(type.length()==7) {
