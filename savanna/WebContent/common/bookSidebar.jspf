@@ -3,7 +3,7 @@
 <div class="sidebar">
 <ul class="sidebar1">
   <li><h4>카테고리</h4></li>
-  <li><a class="menu" href="/savanna/controller?type=mainPage">전체보기</a></li>
+  <li><a class="menu" href="/savanna/controller?type=MainPage">전체보기</a></li>
   <hr>
 </ul>
 </div>

@@ -6,5 +6,6 @@
 			<ul class="sidebar1">
 			  <li><a class="menu" href="/savanna/controller?type=memList">회원관리</a></li>
 			  <li><a class="menu" href="/savanna/controller?type=adminOrderList">주문관리</a></li>
+			  <li><a class="menu" href="/savanna/controller?type=StockManagerPage">상품관리</a></li>
 			</ul>
   		  </div>

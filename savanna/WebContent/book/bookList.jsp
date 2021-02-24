@@ -13,6 +13,9 @@
 <link href="/savanna/css/savanna.css" rel="stylesheet">
 <link href="/savanna/css/member.css" rel="stylesheet">
 <link href="/savanna/css/book.css" rel="stylesheet">
+<link href="/savanna/css/paging.css" rel="stylesheet">
+<link href="/savanna/css/sidebar.css" rel="stylesheet">
+
 <style>
 .img-container {
 	background-color: white;
@@ -49,6 +52,7 @@ img {
 </head>
 <body>
 	<%@ include file="/common/menu.jspf" %>
+	<%@ include file="/common/adminSidebar.jspf" %>
 
 	<h1>상품 관리</h1>
 	<div class="container ">

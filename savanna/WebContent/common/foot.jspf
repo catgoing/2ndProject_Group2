@@ -8,6 +8,12 @@
 <title>SAVANNA</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/savanna.css">
+<style>
+footer {
+	position: relative;
+	bottom: 0px;
+}
+</style>
 </head>
 <body>
 		<footer style="background-color: #000000; color: #ffffff;">

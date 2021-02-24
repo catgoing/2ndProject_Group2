@@ -21,8 +21,6 @@
 <link href="css/sidebar.css" rel="stylesheet">
 <link href="css/cardList.css" rel="stylesheet">
 
-
-
 <title>메인화면</title>
 </head>
 <body>
@@ -31,10 +29,12 @@
   	<%@ include file="/common/bookSidebar.jspf" %>
   </aside>
   <section>
-    <article>
+    <article class="mainNav">
       <%@ include file="book/cardList2.jsp" %>
     </article>
-  </section>
-
+	</section>
+	
+	<hr>
+	<%@ include file="/common/foot.jspf" %>
 </body>
 </html>
