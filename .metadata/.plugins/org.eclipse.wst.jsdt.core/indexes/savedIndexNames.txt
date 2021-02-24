@@ -6,5 +6,13 @@ INDEX VERSION 1.4+C:\Users\lan9e\Documents\GitHub\2ndProject_Group2\.metadata\.p
 990559060.index
 1612961596.index
 252271469.index
+<<<<<<< Updated upstream
 1078615186.index
+=======
+990559060.index
+2709359158.index
+3321025583.index
+4216099026.index
+2063732003.index
+>>>>>>> Stashed changes
 3700859262.index
